@@ -1,0 +1,10 @@
+body {
+    background-color: #7B8183;
+}
+
+#calcBody {
+    width: 500px;
+    height: 900px;
+    display: flex;
+    
+}
