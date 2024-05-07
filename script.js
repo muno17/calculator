@@ -35,3 +35,12 @@ function operate(x, y, op) {
         return divide(x, y);
     }
 }
+
+let display = document.querySelector("#display");
+
+let buttons = document.querySelectorAll("button");
+buttons.forEach(function (button) {
+    button.addEventListener("click", () => {
+        console.log(`${button.innerHTML}`);
+    });
+});
