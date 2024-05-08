@@ -117,5 +117,3 @@ function divide(x, y) {
 
 // if both variables are filled and either another operator or = is clicked,
 // evaluate function and store in first variable (clear second variable)
-
-// update display

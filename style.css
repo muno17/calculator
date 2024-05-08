@@ -9,13 +9,17 @@ body {
 
 #calcBody {
     width: 450px;
-    height: 900px;
+    height: 450px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 100px;
+    padding: 30px;
+    background-color: #8E90A4;
     display: flex;
     flex-direction: column;
-
+    justify-content: center;
+    gap: 20px;
+    border-radius: 10px;
 }
 
 #display {
@@ -30,12 +34,21 @@ body {
     width: 100%;
     display: flex; 
     flex-wrap: wrap;
+    gap: 5px;
 }
 
 button {
     flex: auto;
     width: 100px;
-    height: 50px;
+    height: 60px;
     border-radius: 10px;
-    box-shadow: 1px 1px 8px black;
+    box-shadow: 1px 1px 4px black;
+}
+
+.operator {
+    background-color: #9AB7EE;
+}
+
+.aux {
+    background-color: #EE9ABD;
 }
