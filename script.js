@@ -17,22 +17,23 @@ function divide(x, y) {
 let first;
 let second;
 let operator;
+let current = true;
 
-function operate(x, y, op) {
-    if (op === "+") {
-        return add(x, y);
+function operate() {
+    if (operator === "+") {
+        return add(first, second);
     }
 
-    if (op === "-") {
-        return subtract(x, y);
+    if (operator === "-") {
+        return subtract(first, second);
     }
 
-    if (op === "*") {
-        return multiply(x, y);
+    if (operator === "*") {
+        return multiply(first, second);
     }
 
-    if (op === "/") {
-        return divide(x, y);
+    if (operator === "/") {
+        return divide(first, second);
     }
 }
 
@@ -44,3 +45,38 @@ buttons.forEach(function (button) {
         console.log(`${button.innerHTML}`);
     });
 });
+
+function updater(x) {
+    // if both variables are filled and either another operator or = is clicked,
+    // evaluate function and store in first variable (clear second variable)
+    if (x == '=') {
+        first = operate()
+    }
+
+    // check if operator is clicked - store operator and switch to next variable
+    if (x == "+" || x == "-" || x == "*" || x == "/") {
+        operator = x;
+        current = false;
+    }
+
+    // append number to current variable
+    if (current) {
+        first += x;
+    } else {
+        second += x;
+    }
+
+    if (x == 'clear') {
+        first = '';
+        second = '';
+        operator = '';
+        display.innerHTML = 0;
+    }
+}
+
+
+// if both variables are filled and either another operator or = is clicked,
+// evaluate function and store in first variable (clear second variable)
+
+
+// update display
