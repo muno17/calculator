@@ -1,23 +1,8 @@
-function add(x, y) {
-    return x + y;
-}
-
-function subtract(x, y) {
-    return x - y;
-}
-
-function multiply(x, y) {
-    return x * y;
-}
-
-function divide(x, y) {
-    return x / y;
-}
-
 let first = 0;
 let second = 0;
 let operator;
 let current = true;
+let continuing = false;
 
 function operate() {
     if (operator === "+") {
@@ -60,7 +45,16 @@ function updater(x) {
     // check if operator is clicked - store operator and switch to next variable
     if (isOperator(x)) {
         operator = x;
+
+        if (second != 0) {
+            first = operate();
+            second = 0;
+            continuing = true;
+            return;
+        }
+
         current = false;
+
         return;
     }
 
@@ -92,11 +86,33 @@ function clear() {
 }
 
 function displayUpdate() {
+    if (continuing == true) {
+        display.innerHTML = first;
+        continuing = false;
+        return;
+    }
+
     if (current) {
         display.innerHTML = first;
     } else {
         display.innerHTML = second;
     }
+}
+
+function add(x, y) {
+    return x + y;
+}
+
+function subtract(x, y) {
+    return x - y;
+}
+
+function multiply(x, y) {
+    return x * y;
+}
+
+function divide(x, y) {
+    return x / y;
 }
 
 // if both variables are filled and either another operator or = is clicked,
