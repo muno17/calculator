@@ -3,7 +3,6 @@ let second = "";
 let operator;
 let current = true; // true if on first number
 let continuing = false; // true if first and second have data and additional operator is clicked
-let cleared = false; // true if clear was pressed
 let decimalCheck = false; // true if decimal already been added to current variable
 let operatorCheck = false; // true if an operator has already been clicked
 
@@ -18,11 +17,7 @@ numbers.forEach(function (button) {
             second += button.innerHTML;
         }
 
-        if (!cleared) {
-            displayUpdate();
-        } else {
-            cleared = false;
-        }
+        displayUpdate();
     });
 });
 
@@ -79,13 +74,6 @@ function operate() {
     }
 }
 
-// function isOperator(x) {
-//     if (x == "+" || x == "-" || x == "*" || x == "/") {
-//         return true;
-//     }
-//     return false;
-// }
-
 function clearer() {
     first = "";
     second = "";
@@ -93,7 +81,6 @@ function clearer() {
     display.innerHTML = "0";
     continuing = false;
     current = true;
-    cleared = true;
     decimalCheck = false;
     operatorCheck = false;
 }
@@ -111,7 +98,6 @@ function displayUpdate() {
         display.innerHTML = second;
     }
 }
-
 
 function runOperation() {
     if (first != "" && second != "" && operator != "") {
