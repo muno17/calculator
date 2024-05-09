@@ -1,9 +1,11 @@
-let first = 0;
-let second = 0;
+let first = "";
+let second = "";
 let operator;
 let current = true; // true if on first number
 let continuing = false; // true if first and second have data and additional operator is clicked
 let cleared = false; // true if clear was pressed
+let decimalCheck = false; // true if decimal already been added to current variable
+let operatorCheck = false; // true if an operator has already been clicked
 
 let display = document.querySelector("#display");
 
@@ -24,39 +26,63 @@ function updater(x) {
     // if both variables are filled and either another operator or = is clicked,
     // evaluate function and store in first variable (clear second variable)
     if (x == "=") {
-        first = operate();
-        current = true;
+        if (first != "" && second != "" && operator != "") {
+            first = operate();
+            if (!isInt(first)) {
+                first = first.toFixed(2);
+            }
+            // current = true;
+            // operatorCheck = false;
+            let temp = first;
+            clear();
+            first = temp;
+            cleared = false;
+
+        }
         return;
+    }
+
+    if (x == "+/-") {
     }
 
     // check if operator is clicked - store operator and switch to next variable
     if (isOperator(x)) {
-        operator = x;
+        if (!operatorCheck) {
+            operatorCheck = true;
+            operator = x;
+            decimalCheck = false;
 
-        if (second != 0) {
-            first = operate();
-            second = 0;
-            continuing = true;
-            return;
+            if (second != 0) {
+                first = operate();
+                second = 0;
+                continuing = true;
+                return;
+            }
+
+            current = false;
         }
-
-        current = false;
-
         return;
     }
 
     // if a number is clicked, append number to current variable
-    if (current) {
-        first += x;
-    } else {
-        second += x;
+    // don't allow multiple decimals to be added to either variable
+    if (!decimalCheck || x != ".") {
+        if (current) {
+            first += x;
+        } else {
+            second += x;
+        }
+    }
+
+    if (x == ".") {
+        decimalCheck = true;
+        return;
     }
 
     if (x == "clear") {
         clear();
         return;
     }
-
 }
 
 function operate() {
@@ -73,7 +99,7 @@ function operate() {
     }
 
     if (operator === "/") {
-        if (second == '0') {
+        if (second == "0") {
             display.innerHTML = "CAN'T DIVIDE BY 0";
             return;
         }
@@ -96,6 +122,8 @@ function clear() {
     continuing = false;
     current = true;
     cleared = true;
+    decimalCheck = false;
+    operatorCheck = false;
 }
 
 function displayUpdate() {
@@ -110,6 +138,8 @@ function displayUpdate() {
     } else {
         display.innerHTML = second;
     }
+
+
 }
 
 function add(x, y) {
@@ -131,17 +161,10 @@ function divide(x, y) {
     return x / y;
 }
 
-// if both variables are filled and either another operator or = is clicked,
-// evaluate function and store in first variable (clear second variable)
-
-// only evaluate one at a a time
-
-// round answers
-
-// disable = until ready
+function isInt(n) {
+    return n % 1 === 0;
+}
 
 // don't allow division by 0
-
-// add floating point functionality
 
 // add +/- functionality
