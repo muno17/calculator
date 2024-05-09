@@ -9,10 +9,14 @@ let operatorCheck = false; // true if an operator has already been clicked
 
 let display = document.querySelector("#display");
 
-let buttons = document.querySelectorAll("button");
-buttons.forEach(function (button) {
+let numbers = document.querySelectorAll(".number");
+numbers.forEach(function (button) {
     button.addEventListener("click", () => {
-        updater(button.innerHTML);
+        if (current) {
+            first += button.innerHTML;
+        } else {
+            second += button.innerHTML;
+        }
 
         if (!cleared) {
             displayUpdate();
@@ -22,68 +26,36 @@ buttons.forEach(function (button) {
     });
 });
 
-function updater(x) {
-    // if both variables are filled and either another operator or = is clicked,
-    // evaluate function and store in first variable (clear second variable)
-    if (x == "=") {
-        if (first != "" && second != "" && operator != "") {
-            first = operate();
-            if (!isInt(first)) {
-                first = first.toFixed(2);
+let operators = document.querySelectorAll(".operator");
+operators.forEach(function (button) {
+    button.addEventListener("click", () => {
+        assignOperator(button.innerHTML);
+    });
+});
+
+let equals = document.querySelector(".equals").addEventListener("click", () => {
+    runOperation();
+    displayUpdate();
+});
+
+let decimal = document
+    .querySelector(".decimal")
+    .addEventListener("click", () => {
+        if (!decimalCheck) {
+            if (current) {
+                first += ".";
+            } else {
+                second += ".";
             }
-            // current = true;
-            // operatorCheck = false;
-            let temp = first;
-            clear();
-            first = temp;
-            cleared = false;
-
         }
-        return;
-    }
 
-    if (x == "+/-") {
-    }
-
-    // check if operator is clicked - store operator and switch to next variable
-    if (isOperator(x)) {
-        if (!operatorCheck) {
-            operatorCheck = true;
-            operator = x;
-            decimalCheck = false;
-
-            if (second != 0) {
-                first = operate();
-                second = 0;
-                continuing = true;
-                return;
-            }
-
-            current = false;
-        }
-        return;
-    }
-
-    // if a number is clicked, append number to current variable
-    // don't allow multiple decimals to be added to either variable
-    if (!decimalCheck || x != ".") {
-        if (current) {
-            first += x;
-        } else {
-            second += x;
-        }
-    }
-
-    if (x == ".") {
         decimalCheck = true;
-        return;
-    }
+        displayUpdate();
+    });
 
-    if (x == "clear") {
-        clear();
-        return;
-    }
-}
+let clear = document.querySelector(".clear").addEventListener("click", () => {
+    clearer();
+});
 
 function operate() {
     if (operator === "+") {
@@ -107,14 +79,14 @@ function operate() {
     }
 }
 
-function isOperator(x) {
-    if (x == "+" || x == "-" || x == "*" || x == "/") {
-        return true;
-    }
-    return false;
-}
+// function isOperator(x) {
+//     if (x == "+" || x == "-" || x == "*" || x == "/") {
+//         return true;
+//     }
+//     return false;
+// }
 
-function clear() {
+function clearer() {
     first = "";
     second = "";
     operator = "";
@@ -138,8 +110,41 @@ function displayUpdate() {
     } else {
         display.innerHTML = second;
     }
+}
 
 
+function runOperation() {
+    if (first != "" && second != "" && operator != "") {
+        first = operate();
+        if (!isInt(first)) {
+            first = first.toFixed(2);
+        }
+        // current = true;
+        // operatorCheck = false;
+        let temp = first;
+        clearer();
+        first = temp;
+        cleared = false;
+    }
+    return;
+}
+
+function assignOperator(x) {
+    if (!operatorCheck) {
+        operatorCheck = true;
+        operator = x;
+        decimalCheck = false;
+
+        if (second != 0) {
+            first = operate();
+            second = 0;
+            continuing = true;
+            return;
+        }
+
+        current = false;
+    }
+    return;
 }
 
 function add(x, y) {
@@ -164,7 +169,3 @@ function divide(x, y) {
 function isInt(n) {
     return n % 1 === 0;
 }
-
-// don't allow division by 0
-
-// add +/- functionality
