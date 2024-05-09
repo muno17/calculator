@@ -81,12 +81,22 @@ let deleter = document
             }
 
             if (current) {
-                first = temp;
+                if (temp == 0) {
+                    first = "";
+                    display.innerHTML = 0;
+                } else {
+                    first = temp;
+                    displayUpdate();
+                }
             } else {
-                second = temp;
+                if (temp == 0) {
+                    second = "";
+                    display.innerHTML = 0;
+                } else {
+                    second = temp;
+                    displayUpdate();
+                }
             }
-
-            displayUpdate();
         }
     });
 
