@@ -1,26 +1,9 @@
 let first = 0;
 let second = 0;
 let operator;
-let current = true;
-let continuing = false;
-
-function operate() {
-    if (operator === "+") {
-        return add(+first, +second);
-    }
-
-    if (operator === "-") {
-        return subtract(+first, +second);
-    }
-
-    if (operator === "*") {
-        return multiply(+first, +second);
-    }
-
-    if (operator === "/") {
-        return divide(+first, +second);
-    }
-}
+let current = true; // true if on first number
+let continuing = false; // true if first and second have data and additional operator is clicked
+let cleared = false; // true if clear was pressed
 
 let display = document.querySelector("#display");
 
@@ -29,7 +12,11 @@ buttons.forEach(function (button) {
     button.addEventListener("click", () => {
         updater(button.innerHTML);
 
-        displayUpdate();
+        if (!cleared) {
+            displayUpdate();
+        } else {
+            cleared = false;
+        }
     });
 });
 
@@ -58,7 +45,7 @@ function updater(x) {
         return;
     }
 
-    // append number to current variable
+    // if a number is clicked, append number to current variable
     if (current) {
         first += x;
     } else {
@@ -68,6 +55,29 @@ function updater(x) {
     if (x == "clear") {
         clear();
         return;
+    }
+
+}
+
+function operate() {
+    if (operator === "+") {
+        return add(+first, +second);
+    }
+
+    if (operator === "-") {
+        return subtract(+first, +second);
+    }
+
+    if (operator === "*") {
+        return multiply(+first, +second);
+    }
+
+    if (operator === "/") {
+        if (second == '0') {
+            display.innerHTML = "CAN'T DIVIDE BY 0";
+            return;
+        }
+        return divide(+first, +second);
     }
 }
 
@@ -82,7 +92,10 @@ function clear() {
     first = "";
     second = "";
     operator = "";
-    display.innerHTML = 0;
+    display.innerHTML = "0";
+    continuing = false;
+    current = true;
+    cleared = true;
 }
 
 function displayUpdate() {
@@ -112,8 +125,23 @@ function multiply(x, y) {
 }
 
 function divide(x, y) {
+    if (y === 0) {
+        return;
+    }
     return x / y;
 }
 
 // if both variables are filled and either another operator or = is clicked,
 // evaluate function and store in first variable (clear second variable)
+
+// only evaluate one at a a time
+
+// round answers
+
+// disable = until ready
+
+// don't allow division by 0
+
+// add floating point functionality
+
+// add +/- functionality
