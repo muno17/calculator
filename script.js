@@ -52,6 +52,44 @@ let clear = document.querySelector(".clear").addEventListener("click", () => {
     clearer();
 });
 
+let negate = document.querySelector(".negate").addEventListener("click", () => {
+    if (current) {
+        first *= -1;
+    } else {
+        second *= -1;
+    }
+    displayUpdate();
+});
+
+let deleter = document
+    .querySelector(".delete")
+    .addEventListener("click", () => {
+        let temp = "";
+        if (current) {
+            temp = first;
+        } else {
+            temp = second;
+        }
+
+        let length = temp.length;
+
+        if (length != undefined) {
+            if (length == 1) {
+                temp = 0;
+            } else {
+                temp = temp.slice(0, temp.length - 1);
+            }
+
+            if (current) {
+                first = temp;
+            } else {
+                second = temp;
+            }
+
+            displayUpdate();
+        }
+    });
+
 function operate() {
     if (operator === "+") {
         return add(+first, +second);
